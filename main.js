@@ -243,7 +243,7 @@ function createWindow() {
   w.loadFile('index.html');
 
   // Open the DevTools.
-  w.webContents.openDevTools();
+  // w.webContents.openDevTools();
 
   // Set event listeners.
   w.webContents.on("did-finish-load", onWindowLoad);
@@ -296,7 +296,7 @@ async function onWindowLoad() {
     await nllb.init();
 
     sendMsg("init", {
-      progress: 50,
+      progress: 0.5,
       message: "Downloading model..."
     });
 
@@ -305,7 +305,7 @@ async function onWindowLoad() {
     sendMsg("test", result);
 
     sendMsg("init", {
-      progress: 100,
+      progress: 1,
       message: "Complete initialization."
     });
   } catch(err) {

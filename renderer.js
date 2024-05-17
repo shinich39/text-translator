@@ -536,10 +536,10 @@ getMsg("init", function(err, msg, event) {
   }
 
   const { progress, message } = msg;
-  progressElement.style.width = progress + "%";
+  progressElement.style.width = (progress * 100) + "%";
   messageElement.innerHTML = message;
 
-  if (progress === 100) {
+  if (progress === 1) {
     setTimeout(function() {
       document.getElementById("loading").style.display = "none";
     }, 1000);

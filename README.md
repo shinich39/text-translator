@@ -51,10 +51,15 @@ Text translator with electron.
 ## Updates
 
 - 5/23/2024
+
   Add all NLLB models.
+
   Add translateByLine.
+
   Add reverso.
+
   Add txt preview.
+
   Web timeout: 30s => 10s
 
 ## References

@@ -3,7 +3,7 @@ const { sendMsg, sendErr, getMsg, waitMsg } = window.electron;
 Toast.setPlacement(TOAST_PLACEMENT.BOTTOM_RIGHT);
 Toast.setTheme(TOAST_THEME.DARK);
 
-let translator = "local";
+let translator = "nllb-0";
 let translate = translateByParagraph; // function 
 
 // default
@@ -28,7 +28,7 @@ async function translateByAll(text, from, to, cb) {
 }
 
 async function translateByParagraph(text, from, to, cb) {
-  let paragraphs = text.split(/\r\n|\r|\n/g),
+  let paragraphs = text.split(/(\r\n{2,}|\r{2,}|\n{2,})/g),
       result = "", 
       totalParagraphs = paragraphs.length,
       countParagraphs = 0,
@@ -54,16 +54,53 @@ async function translateByParagraph(text, from, to, cb) {
         console.error(err);
         result += paragraph;
       }
+    } else {
+      result += paragraph || "";
     }
 
     countParagraphs += 1;
 
     cb(countParagraphs / totalParagraphs, result, new Date().valueOf() - startedAt);
+  }
 
-    // pass last linebreak
-    if (i !== paragraphs.length - 1) {
-      result += "\n";
+  // end
+  cb(1, result, new Date().valueOf() - startedAt);
+}
+
+async function translateByLine(text, from, to, cb) {
+  let lines = text.split(/(\r\n|\r|\n)/g),
+      result = "", 
+      totalLines = lines.length,
+      countLines = 0,
+      startedAt = new Date().valueOf();
+
+  console.log(`found ${totalLines} lines`);
+  console.log(`translate to ${to} from ${from}`);
+
+  // start
+  cb(0, result, 0);
+
+  for (let i = 0 ; i < lines.length; i++) {
+    const line = lines[i];
+    if (line.trim() !== "") {
+      try {
+        result += await waitMsg("translate", {
+          translator,
+          text: line,
+          from,
+          to,
+        });
+      } catch(err) {
+        console.error(err);
+        result += line;
+      }
+    } else {
+      result += line || "";
     }
+
+    countLines += 1;
+
+    cb(countLines / totalLines, result, new Date().valueOf() - startedAt);
   }
 
   // end
@@ -294,6 +331,8 @@ async function translateBySentence(text, from, to, cb) {
   const outputLangElement = document.getElementById("txt-output-lang");
   const inputPathElement = document.getElementById("txt-input-path");
   const outputPathElement = document.getElementById("txt-output-path");
+  const inputTextElement = document.getElementById("txt-input-text");
+  const outputTextElement = document.getElementById("txt-output-text");
   const inputButtonElement = document.getElementById("txt-input-button");
   const outputButtonElement = document.getElementById("txt-output-button");
   
@@ -447,8 +486,15 @@ async function translateBySentence(text, from, to, cb) {
 
             function translateFile(file) {
               return new Promise(function(resolve, reject) {
+                // preview
+                inputTextElement.value = file.text;
+            
                 translate(file.text, file.lang || srcLang, dstLang, function(progress, result, timestamp) {
                   console.log(`${file.name}: ${progress}`);
+
+                  // preview
+                  outputTextElement.value = result;
+
                   if (progress === 1) {
                     console.log(`translated ${file.text.length} characters for ${timestamp} ms`);
                     resolve(result);
@@ -513,7 +559,9 @@ async function translateBySentence(text, from, to, cb) {
         translate = translateByAll;
       } else if (value === "paragraph") {
         translate = translateByParagraph;
-      } else if (value === "sentence") {
+      }else if (value === "line") {
+        translate = translateByLine;
+      }  else if (value === "sentence") {
         translate = translateBySentence;
       } else {
         translate = translateByAll;

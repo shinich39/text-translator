@@ -107,6 +107,16 @@
           <input class="form-control" id="txt-output-path" placeholder="">
         </div>
       </div>
+      <div class="row my-3">
+        <div class="col-6">
+          <label for="txt-input-text" class="form-label">Text A:</label>
+          <textarea class="form-control" id="txt-input-text" rows="8" readonly></textarea>
+        </div>
+        <div class="col-6">
+          <label for="txt-output-text" class="form-label">Text B:</label>
+          <textarea class="form-control" id="txt-output-text" rows="8" readonly></textarea>
+        </div>
+      </div>
     </div>
     <!-- page 3 -->
     <div class="tab-pane fade" id="settings-tab-pane" role="tabpanel" aria-labelledby="settings-tab" tabindex="0">
@@ -114,39 +124,69 @@
         <div class="col-12">
           <h5>Translate Type</h5>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="translate-type" id="settings-translate-type-1" value="local" checked>
+            <input class="form-check-input" type="radio" name="translate-type" id="settings-translate-type-1" value="nllb-0" checked>
             <label class="form-check-label" for="settings-translate-type-1">
-              Local
+              NLLB-200-distilled-600M
             </label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="translate-type" id="settings-translate-type-2" value="google">
+            <input class="form-check-input" type="radio" name="translate-type" id="settings-translate-type-2" value="nllb-1">
             <label class="form-check-label" for="settings-translate-type-2">
-              Google
+              NLLB-200-distilled-1.3B
             </label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="translate-type" id="settings-translate-type-3" value="deepl">
+            <input class="form-check-input" type="radio" name="translate-type" id="settings-translate-type-3" value="nllb-2">
             <label class="form-check-label" for="settings-translate-type-3">
+              NLLB-200-1.3B
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="translate-type" id="settings-translate-type-4" value="nllb-3">
+            <label class="form-check-label" for="settings-translate-type-4">
+              NLLB-200-3.3B
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="translate-type" id="settings-translate-type-5" value="nllb-4" disabled>
+            <label class="form-check-label" for="settings-translate-type-5">
+              NLLB-MOE-54B (disabled)
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="translate-type" id="settings-translate-type-11" value="google">
+            <label class="form-check-label" for="settings-translate-type-11">
+              Google (low quality)
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="translate-type" id="settings-translate-type-12" value="deepl">
+            <label class="form-check-label" for="settings-translate-type-12">
               Deepl
             </label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="translate-type" id="settings-translate-type-4" value="papago">
-            <label class="form-check-label" for="settings-translate-type-4">
+            <input class="form-check-input" type="radio" name="translate-type" id="settings-translate-type-13" value="papago">
+            <label class="form-check-label" for="settings-translate-type-13">
               Papago
             </label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="translate-type" id="settings-translate-type-5" value="yandex">
-            <label class="form-check-label" for="settings-translate-type-5">
+            <input class="form-check-input" type="radio" name="translate-type" id="settings-translate-type-14" value="yandex">
+            <label class="form-check-label" for="settings-translate-type-14">
               Yandex
             </label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="translate-type" id="settings-translate-type-6" value="bing" disabled>
-            <label class="form-check-label" for="settings-translate-type-6">
+            <input class="form-check-input" type="radio" name="translate-type" id="settings-translate-type-15" value="bing" disabled>
+            <label class="form-check-label" for="settings-translate-type-15">
               Bing (disabled)
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="translate-type" id="settings-translate-type-16" value="reverso">
+            <label class="form-check-label" for="settings-translate-type-16">
+              Reverso
             </label>
           </div>
         </div>
@@ -167,8 +207,14 @@
             </label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="translate-unit" id="settings-translate-unit-3" value="sentence">
+            <input class="form-check-input" type="radio" name="translate-unit" id="settings-translate-unit-3" value="line">
             <label class="form-check-label" for="settings-translate-unit-3">
+              Line
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="translate-unit" id="settings-translate-unit-4" value="sentence">
+            <label class="form-check-label" for="settings-translate-unit-4">
               Sentence (slow)
             </label>
           </div>

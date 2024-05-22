@@ -15,7 +15,7 @@ const PROVIDERS = {
   google: {
     "selectors": ["span.ryNqvb"],
     "url": function(text, from, to) {
-      return `https://translate.google.com/?op=translate&text=${text}&sl=${from}&tl=${to}`
+      return `https://translate.google.com/?sl=${from}&tl=${to}&text=${text}&op=translate`
     }
   },
   deepl: {
@@ -34,6 +34,12 @@ const PROVIDERS = {
     "selectors": ["span.translation-word"],
     "url": function(text, from, to) {
       return `https://translate.yandex.com/?source_lang=${from}&target_lang=${to}&text=${text}`
+    }
+  },
+  reverso: {
+    "selectors": [".sentence-wrapper.sentence-wrapper_target span"],
+    "url": function(text, from, to) {
+      return `https://www.reverso.net/text-translation#sl=${from}&tl=${to}&text=${text}`;
     }
   },
   bing: {
@@ -460,15 +466,22 @@ waitMsg("get-text-files", async function(err, dirPath, e) {
 
 waitMsg("translate", async function(err, {translator, text, from, to}, e) {
   try {
-    if (translator === "local") {
+    if (translator.indexOf("nllb") === 0) {
       // local
       from = convertLangToFlores(from);
       to = convertLangToFlores(to);
-      return await nllb.exec(text, from, to);
+      let modelIndex = parseInt(translator.replace("nllb-", ""));
+      if (isNaN(modelIndex)) {
+        throw new Error("NLLB model not found.");
+      }
+      return await nllb.exec(text, from, to, modelIndex);
     } else {
       // web
-      from = convertLangToISO2(from);
-      to = convertLangToISO2(to);
+      if (translator !== "reverso") {
+        from = convertLangToISO2(from);
+        to = convertLangToISO2(to);
+      }
+      text = encodeURIComponent(text);
       const url = PROVIDERS[translator].url(text, from, to);
       const selectors = PROVIDERS[translator].selectors;
       const elements = await wcjs.load(url, selectors);

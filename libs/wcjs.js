@@ -11,7 +11,7 @@ async function getContent(url, selectors, delay) {
   for (const selector of selectors) {
     await page.waitForSelector(selector, {
       visible: true,
-      timeout: 1000 * 30, // 30sec
+      timeout: 1000 * 10, // 10sec
     });
   }
 

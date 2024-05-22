@@ -29,21 +29,34 @@ Text translator with electron.
 
 #### Translate Type
 
-- local: Use NLLB model
+- NLLB-200: Use NLLB-200 models (Take a lot of time for downloading in first translate.)
 - google
 - deepl
 - papago
 - yandex
 - bing: Disabled
+- reverso
 
 #### Translate Unit
 
 - All: Disabled
 - Paragraph: Default
+- Line: 
 - Sentence: Slow
 
 <p>
   <img src="./imgs/3.png" width="50%" title="3.png">
 </p>
 
+## Updates
+
+- 5/23/2024
+  Add all NLLB models.
+  Add translateByLine.
+  Add reverso.
+  Add txt preview.
+  Web timeout: 30s => 10s
+
 ## References
+
+- [nllb-200-high-quality-machine-translation](https://ai.meta.com/blog/nllb-200-high-quality-machine-translation/ko/)

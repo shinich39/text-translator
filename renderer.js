@@ -487,7 +487,6 @@ async function translateBySentence(text, from, to, cb) {
               });
               return;
             }
-            
             if (!isLangsValid()) {
               Toast.create({
                 title: "LanguageError",
@@ -625,6 +624,7 @@ getMsg("init", function(err, msg, event) {
   if (progress === 1) {
     setTimeout(function() {
       document.getElementById("loading").style.display = "none";
+      isInitialized = true;
     }, 1000);
   }
 });

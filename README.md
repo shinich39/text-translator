@@ -10,7 +10,7 @@ Text translator with electron.
 4. Click Translate A to B
 
 <p>
-  <img src="./imgs/1.png" width="50%" title="1.png">
+  <img src="./imgs/1.png" width="100%" title="1.png">
 </p>
 
 ## TXT files
@@ -22,7 +22,7 @@ Text translator with electron.
 4. Click Translate A to B
 
 <p>
-  <img src="./imgs/2.png" width="50%" title="2.png">
+  <img src="./imgs/2.png" width="100%" title="2.png">
 </p>
 
 ## Settings
@@ -45,22 +45,17 @@ Text translator with electron.
 - Sentence: Slow
 
 <p>
-  <img src="./imgs/3.png" width="50%" title="3.png">
+  <img src="./imgs/3.png" width="100%" title="3.png">
 </p>
 
 ## Updates
 
-- 5/23/2024
-
-  Add all NLLB models.
-
-  Add translateByLine.
-
-  Add reverso.
-
-  Add txt preview.
-
-  Web timeout: 30s => 10s
+- Add all NLLB models.
+- Add translateByLine.
+- Add reverso.
+- Add txt preview.
+- Web timeout: 30s => 10s
+- Add translate from clipboard.
 
 ## References
 

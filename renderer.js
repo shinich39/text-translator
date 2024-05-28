@@ -3,8 +3,10 @@ const { sendMsg, sendErr, getMsg, waitMsg } = window.electron;
 Toast.setPlacement(TOAST_PLACEMENT.BOTTOM_RIGHT);
 Toast.setTheme(TOAST_THEME.DARK);
 
+let isInitialized = false;
 let translator = "nllb-0";
-let translate = translateByParagraph; // function 
+let translate = translateByParagraph; // function
+let clipboard = false; // default 0
 
 // default
 async function translateByAll(text, from, to, cb) {
@@ -285,6 +287,15 @@ async function translateBySentence(text, from, to, cb) {
       const dstTextElement = idx === 0 ? outputTextElement : inputTextElement;
       const dstLangElement = idx === 0 ? outputLangElement : inputLangElement;
       el.addEventListener("click", async function(e) {
+        if (!isInitialized) {
+          Toast.create({
+            title: "InitializeError",
+            message: "Not initialized.",
+            status: TOAST_STATUS.DANGER,
+            timeout: 3000
+          });
+          return;
+        }
         if (!isLangsValid()) {
           Toast.create({
             title: "LanguageError",
@@ -320,6 +331,14 @@ async function translateBySentence(text, from, to, cb) {
         });
       });
     });
+
+  // clipboard handler
+  getMsg("clipboard", function(err, msg, event) {
+    if (clipboard) {
+      inputTextElement.value = msg;
+      inputButtonElement.click();
+    }
+  });
 })();
 
 // page 2
@@ -459,6 +478,16 @@ async function translateBySentence(text, from, to, cb) {
           const dstPathElement = idx === 0 ? outputPathElement : inputPathElement;
           const dstLangElement = idx === 0 ? outputLangElement : inputLangElement;
           el.addEventListener("click", async function(e) {
+            if (!isInitialized) {
+              Toast.create({
+                title: "InitializeError",
+                message: "Not initialized.",
+                status: TOAST_STATUS.DANGER,
+                timeout: 3000
+              });
+              return;
+            }
+            
             if (!isLangsValid()) {
               Toast.create({
                 title: "LanguageError",
@@ -543,8 +572,7 @@ async function translateBySentence(text, from, to, cb) {
   // type
   document.querySelectorAll("input[name='translate-type']").forEach(function(el) {
     el.addEventListener("change", function(e) {
-      const elem = e.target;
-      const value = elem.value;
+      const value = e.target.value;
       translator = value;
       console.log(`translate type changed: ${translator}`);
     });
@@ -553,13 +581,12 @@ async function translateBySentence(text, from, to, cb) {
   // unit
   document.querySelectorAll("input[name='translate-unit']").forEach(function(el) {
     el.addEventListener("change", function(e) {
-      const elem = e.target;
-      const value = elem.value;
+      const value = e.target.value;
       if (value === "all") {
         translate = translateByAll;
       } else if (value === "paragraph") {
         translate = translateByParagraph;
-      }else if (value === "line") {
+      } else if (value === "line") {
         translate = translateByLine;
       }  else if (value === "sentence") {
         translate = translateBySentence;
@@ -570,6 +597,14 @@ async function translateBySentence(text, from, to, cb) {
     });
   });
 
+  // clipboard
+  document.querySelectorAll("input[name='translate-clipboard']").forEach(function(el) {
+    el.addEventListener("change", function(e) {
+      const value = e.target.value;
+      clipboard = value === "1";
+      console.log(`translate clipboard changed: ${value}`);
+    });
+  });
 })();
 
 getMsg("init", function(err, msg, event) {

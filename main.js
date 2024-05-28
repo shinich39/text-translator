@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, screen, dialog, Menu, } from "electron";
+import { app, BrowserWindow, ipcMain, screen, dialog, Menu, clipboard } from "electron";
 import path from "node:path";
 import fs from "node:fs";
 import { fileURLToPath } from 'node:url';
@@ -366,7 +366,23 @@ let FLORES_ALL_KEYS = Object.keys(FLORES_ALL);
 let FLORES_101 = JSON.parse(fs.readFileSync(FLORES_101_PATH));
 let FLORES_101_KEYS = Object.keys(FLORES_101);
 let FLORES_ISO = JSON.parse(fs.readFileSync(FLORES_ISO_PATH));
-let config;
+let config, clipboardText = "";
+
+// start clipboard watching
+try {
+  // set current text
+  clipboardText = clipboard.readText("clipboard");
+
+  setInterval(function() {
+    const text = clipboard.readText("clipboard");
+    if (clipboardText !== text) {
+      clipboardText = text;
+      sendMsg("clipboard", clipboardText);
+    }
+  }, 256);
+} catch(err) {
+  console.error("Clipboard watching not supported.");
+}
 
 waitMsg("get-lang", function(err, msg, e) {
   try {

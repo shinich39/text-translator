@@ -4,10 +4,10 @@ NLLB-200 text translator.
 
 ## Text
 
-1. Type to Text A. (source text)
-2. If Language A (source language) is not matched, replace Language A manually.
-3. Type Language B (destination language)
-4. Click Translate A to B
+1. Enter input text to "Text A".
+2. If "Language A" is empty or not matched, replace "Language A" manually.
+3. Enter output language to "Language B".
+4. Click "Translate A to B" button.
 
 <p>
   <img src="./imgs/1.png" width="100%" title="1.png">
@@ -15,11 +15,11 @@ NLLB-200 text translator.
 
 ## TXT files
 
-1. Type to Directory A. (directory path)
-2. Type to Directory B. (directory path)
-3. If Language A (source language) is not matched, replace Language A manually.
-4. Type Language B (destination language)
-4. Click Translate A to B
+1. Type input path to "Directory A".
+2. Type output path to "Directory B".
+3. If "Language A" is empty or not matched, replace "Language A" manually.
+4. Type output language to "Language B".
+5. Click "Translate A to B" button.
 
 <p>
   <img src="./imgs/2.png" width="100%" title="2.png">
@@ -29,7 +29,7 @@ NLLB-200 text translator.
 
 #### Translate Type
 
-- NLLB-200: Use NLLB-200 models (Take a lot of time for downloading in first translate.)
+- NLLB-200: Use NLLB-200 model (Take a lot of time for downloading in first translate.)
 - google
 - deepl
 - papago
@@ -44,9 +44,10 @@ NLLB-200 text translator.
 - Line: 
 - Sentence: Slow
 
-<p>
-  <img src="./imgs/3.png" width="100%" title="3.png">
-</p>
+#### Translate from clipboard
+
+- Disable
+- Enable: Auto translate copied text.
 
 ## Updates
 

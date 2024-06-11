@@ -1,6 +1,6 @@
-# tt
+# text-translator
 
-Text translator with electron.
+NLLB-200 text translator.
 
 ## Text
 
